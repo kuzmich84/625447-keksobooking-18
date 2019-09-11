@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Дмитрий Кучуков](https://up.htmlacademy.ru/javascript/18/user/625447).
-* Наставник: `Неизвестно`.
+* Наставник: [Михаил Семиколенов](https://htmlacademy.ru/profile/id19706).
 
 ---
 
