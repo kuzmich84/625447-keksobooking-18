@@ -113,19 +113,6 @@ var getDeclensionWord = function (number, word) {
   return number + word[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
 };
 
-var getAvailableFeatures = function (advert, popupFeatures) {
-  for (i = 0; i < advert.length; i++) {
-    for (var j = 0; j < popupFeatures.length; j++) {
-      if (popupFeatures[j].classList.contains('popup__feature--' + advert[i])) {
-        popupFeatures[j].style.display = 'none';
-      } else {
-        popupFeatures[j].style.display = 'inline-block';
-      }
-    }
-  }
-};
-
-
 var renderAdvert = function (advert) {
   var cardElement = card.cloneNode(true);
 
@@ -138,20 +125,25 @@ var renderAdvert = function (advert) {
   cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + advert.offer.checkin + ', выезд до ' + advert.offer.checkout;
   cardElement.querySelector('.popup__description').textContent = advert.offer.description;
 
-
-  for (i = 0; i < advert.offer.photos.length; i++) {
-    console.log(advert.offer.photos[i]);
-
-    cardElement.querySelector('.popup__photo').src = advert.offer.photos[i];
-    var clone = cardElement.querySelector('.popup__photo').cloneNode(true);
-    cardElement.querySelector('.popup__photo').src = advert.offer.photos[i];
-    cardElement.querySelector('.popup__photos').appendChild(clone);
+  var popupFeatures = cardElement.querySelector('.popup__features').children;
+  for (i = 0; i < popupFeatures.length; i++) {
+    popupFeatures[i].style.display = 'none';
+  }
+  for (i = 0; i < advert.offer.features.length; i++) {
+    for (var j = 0; j < popupFeatures.length; j++) {
+      if (popupFeatures[j].classList.contains('popup__feature--' + advert.offer.features[i])) {
+        popupFeatures[j].style.display = 'inline-block';
+      }
+    }
   }
 
+  for (i = 0; i < advert.offer.photos.length; i++) {
+    cardElement.querySelector('.popup__photo').src = advert.offer.photos[i];
+    cardElement.querySelector('.popup__photos').appendChild(cardElement.querySelector('.popup__photo').cloneNode(true));
+  }
+  cardElement.querySelectorAll('.popup__photo')[0].remove();
 
-  var popupFeatures = cardElement.querySelector('.popup__features').children;
-  getAvailableFeatures(advert.offer.features, popupFeatures);
-
+  cardElement.querySelector('.popup__avatar').src = advert.author.avatar;
 
   return cardElement;
 };
