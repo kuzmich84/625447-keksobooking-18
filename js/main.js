@@ -18,9 +18,9 @@ var mapPin = document.querySelector('.map__pins');
 var widthMap = mapPin.clientWidth - widthPin;
 
 var map = document.querySelector('.map');
-map.classList.remove('map--faded');
 
-var mapFilter = map.querySelector('.map__filters-container');
+
+var mapFilterContainer = map.querySelector('.map__filters-container');
 
 var getRandomElement = function (advertItem) {
   var randomIndex = Math.floor((advertItem.length - 1) * Math.random());
@@ -85,7 +85,7 @@ var fragment = document.createDocumentFragment();
 for (var i = 0; i < getAdvert().length; i++) {
   fragment.appendChild(renderPin(getAdvert()[i]));
 }
-mapPin.appendChild(fragment);
+// mapPin.appendChild(fragment);
 
 var card = document.querySelector('#card').content;
 
@@ -150,6 +150,60 @@ var renderAdvert = function (advert) {
 
 fragment.appendChild(renderAdvert(adverts[0]));
 
-map.insertBefore(fragment, mapFilter);
+// map.insertBefore(fragment, mapFilterContainer);
+
+var setAttributeDisabled = function (formFields) {
+  for (i = 0; i < formFields.length; i++) {
+    formFields[i].setAttribute('disabled', 'disabled');
+  }
+};
+
+var setAttributeEnabled = function (formFields) {
+  for (i = 0; i < formFields.length; i++) {
+    formFields[i].removeAttribute('disabled');
+  }
+};
+
+var mapFilter = document.querySelectorAll('.map__filter');
+var mapCheckBox = document.querySelectorAll('.map__checkbox ');
+var notice = document.querySelector('.notice');
+var advertFormElement = notice.querySelectorAll('.ad-form__element');
+var advertFormHeader = notice.querySelector('.ad-form-header');
+var mapPinMain = map.querySelector('.map__pin--main');
+var advertForm = notice.querySelector('.ad-form');
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+var MAP_PIN_WIDTH = 65;
+var MAP_PIN_HEIGHT = 65;
+var MAP_PIN_SHARP_HEIGHT = 22;
+var mapPinCoordinateX = parseInt(mapPinMain.style.left, 10) + Math.floor(MAP_PIN_WIDTH / 2);
+var mapPinCoordinateY = parseInt(mapPinMain.style.top, 10) + Math.floor(MAP_PIN_HEIGHT / 2);
+
+var noticeAddress = notice.querySelector('#address');
+noticeAddress.value = mapPinCoordinateX + ', ' + mapPinCoordinateY;
+
+
+setAttributeDisabled(mapFilter);
+setAttributeDisabled(mapCheckBox);
+setAttributeDisabled(advertFormElement);
+advertFormHeader.setAttribute('disabled', 'disabled');
+
+
+var setActivePage = function () {
+  map.classList.remove('map--faded');
+  advertForm.classList.remove('ad-form--disabled');
+  setAttributeEnabled(mapFilter);
+  setAttributeEnabled(mapCheckBox);
+  setAttributeEnabled(advertFormElement);
+  advertFormHeader.removeAttribute('disabled');
+  mapPinCoordinateY += MAP_PIN_SHARP_HEIGHT + Math.floor(MAP_PIN_WIDTH / 2);
+  noticeAddress.value = mapPinCoordinateX + ', ' + mapPinCoordinateY;
+};
+
+mapPinMain.addEventListener('click', function () {
+  setActivePage();
+});
+
+
 
 
