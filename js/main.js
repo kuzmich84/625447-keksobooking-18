@@ -18,6 +18,7 @@ var mapPin = document.querySelector('.map__pins');
 var widthMap = mapPin.clientWidth - widthPin;
 
 var map = document.querySelector('.map');
+var mapFilterContainer = map.querySelector('.map__filters-container');
 
 var getRandomElement = function (advertItem) {
   var randomIndex = Math.floor((advertItem.length - 1) * Math.random());
@@ -82,6 +83,7 @@ var fragment = document.createDocumentFragment();
 for (var i = 0; i < getAdvert().length; i++) {
   fragment.appendChild(renderPin(getAdvert()[i]));
 }
+
 
 
 var card = document.querySelector('#card').content;
@@ -243,6 +245,8 @@ var setActivePage = function () {
   noticeAddress.value = mapPinCoordinateX + ', ' + mapPinCoordinateY;
   mapPinMain.removeEventListener('click', setActivePage);
   validateCapacityGuest();
+  mapPin.appendChild(fragment);
+  map.insertBefore(fragment, mapFilterContainer);
 };
 
 mapPinMain.addEventListener('click', setActivePage);
