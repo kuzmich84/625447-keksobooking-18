@@ -84,8 +84,6 @@ for (var i = 0; i < getAdvert().length; i++) {
   fragment.appendChild(renderPin(getAdvert()[i]));
 }
 
-
-
 var card = document.querySelector('#card').content;
 
 var getDescriptionOfType = function (type) {
