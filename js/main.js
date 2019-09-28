@@ -19,9 +19,6 @@ var widthMap = mapPin.clientWidth - widthPin;
 
 var map = document.querySelector('.map');
 
-
-var mapFilterContainer = map.querySelector('.map__filters-container');
-
 var getRandomElement = function (advertItem) {
   var randomIndex = Math.floor((advertItem.length - 1) * Math.random());
   return advertItem[randomIndex];
@@ -85,7 +82,7 @@ var fragment = document.createDocumentFragment();
 for (var i = 0; i < getAdvert().length; i++) {
   fragment.appendChild(renderPin(getAdvert()[i]));
 }
-// mapPin.appendChild(fragment);
+
 
 var card = document.querySelector('#card').content;
 
@@ -171,8 +168,6 @@ var advertFormElement = notice.querySelectorAll('.ad-form__element');
 var advertFormHeader = notice.querySelector('.ad-form-header');
 var mapPinMain = map.querySelector('.map__pin--main');
 var advertForm = notice.querySelector('.ad-form');
-var ESC_KEYCODE = 27;
-var ENTER_KEYCODE = 13;
 var MAP_PIN_WIDTH = 65;
 var MAP_PIN_HEIGHT = 65;
 var MAP_PIN_SHARP_HEIGHT = 22;
@@ -182,12 +177,60 @@ var mapPinCoordinateY = parseInt(mapPinMain.style.top, 10) + Math.floor(MAP_PIN_
 var noticeAddress = notice.querySelector('#address');
 noticeAddress.value = mapPinCoordinateX + ', ' + mapPinCoordinateY;
 
-
 setAttributeDisabled(mapFilter);
 setAttributeDisabled(mapCheckBox);
 setAttributeDisabled(advertFormElement);
 advertFormHeader.setAttribute('disabled', 'disabled');
 
+var roomNumber = notice.querySelector('#room_number');
+var capacityGuest = notice.querySelector('#capacity');
+
+
+var setCapacityGuestOfRoomNumber = function () {
+  if (roomNumber.value === '1') {
+    capacityGuest[2].removeAttribute('disabled');
+    capacityGuest[0].setAttribute('disabled', 'disabled');
+    capacityGuest[1].setAttribute('disabled', 'disabled');
+    capacityGuest[3].setAttribute('disabled', 'disabled');
+
+  } else if (roomNumber.value === '2') {
+    capacityGuest[0].setAttribute('disabled', 'disabled');
+    capacityGuest[3].setAttribute('disabled', 'disabled');
+    capacityGuest[2].removeAttribute('disabled');
+  } else if (roomNumber.value === '3') {
+    capacityGuest[3].setAttribute('disabled', 'disabled');
+    capacityGuest[0].removeAttribute('disabled');
+    capacityGuest[1].removeAttribute('disabled');
+    capacityGuest[2].removeAttribute('disabled');
+  } else if (roomNumber.value === '100') {
+    capacityGuest[0].setAttribute('disabled', 'disabled');
+    capacityGuest[1].setAttribute('disabled', 'disabled');
+    capacityGuest[2].setAttribute('disabled', 'disabled');
+    capacityGuest[3].removeAttribute('disabled');
+  }
+};
+
+var validateCapacityGuest = function () {
+  if (roomNumber.value === '1' && (capacityGuest.value === '0' || capacityGuest.value === '2' || capacityGuest.value === '3')) {
+    capacityGuest.setCustomValidity('В однокомнатную квартиру разместить можно только 1 гостя');
+  } else if (roomNumber.value === '2' && (capacityGuest.value === '0' || capacityGuest.value === '3')) {
+    capacityGuest.setCustomValidity('В 2х комнатную квартиру разместить можно только 1 или 2х гостей');
+  } else if (roomNumber.value === '3' && capacityGuest.value === '0') {
+    capacityGuest.setCustomValidity('В 3х комнатную квартиру разместить можно только 1, 2х или 3х гостей');
+  } else if (roomNumber.value === '100' && !(capacityGuest.value === '0')) {
+    capacityGuest.setCustomValidity('В 100 комнатной квартире резмещать гостей нельзя');
+  } else {
+    capacityGuest.setCustomValidity('');
+  }
+
+};
+
+roomNumber.addEventListener('change', function () {
+  setCapacityGuestOfRoomNumber();
+  validateCapacityGuest();
+});
+
+capacityGuest.addEventListener('change', validateCapacityGuest);
 
 var setActivePage = function () {
   map.classList.remove('map--faded');
@@ -198,12 +241,8 @@ var setActivePage = function () {
   advertFormHeader.removeAttribute('disabled');
   mapPinCoordinateY += MAP_PIN_SHARP_HEIGHT + Math.floor(MAP_PIN_WIDTH / 2);
   noticeAddress.value = mapPinCoordinateX + ', ' + mapPinCoordinateY;
+  mapPinMain.removeEventListener('click', setActivePage);
+  validateCapacityGuest();
 };
 
-mapPinMain.addEventListener('click', function () {
-  setActivePage();
-});
-
-
-
-
+mapPinMain.addEventListener('click', setActivePage);
