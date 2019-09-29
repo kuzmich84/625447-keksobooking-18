@@ -18,9 +18,7 @@ var mapPin = document.querySelector('.map__pins');
 var widthMap = mapPin.clientWidth - widthPin;
 
 var map = document.querySelector('.map');
-map.classList.remove('map--faded');
-
-var mapFilter = map.querySelector('.map__filters-container');
+var mapFilterContainer = map.querySelector('.map__filters-container');
 
 var getRandomElement = function (advertItem) {
   var randomIndex = Math.floor((advertItem.length - 1) * Math.random());
@@ -85,7 +83,6 @@ var fragment = document.createDocumentFragment();
 for (var i = 0; i < getAdvert().length; i++) {
   fragment.appendChild(renderPin(getAdvert()[i]));
 }
-mapPin.appendChild(fragment);
 
 var card = document.querySelector('#card').content;
 
@@ -150,6 +147,104 @@ var renderAdvert = function (advert) {
 
 fragment.appendChild(renderAdvert(adverts[0]));
 
-map.insertBefore(fragment, mapFilter);
+// map.insertBefore(fragment, mapFilterContainer);
+
+var setAttributeDisabled = function (formFields) {
+  for (i = 0; i < formFields.length; i++) {
+    formFields[i].setAttribute('disabled', 'disabled');
+  }
+};
+
+var setAttributeEnabled = function (formFields) {
+  for (i = 0; i < formFields.length; i++) {
+    formFields[i].removeAttribute('disabled');
+  }
+};
+
+var mapFilter = document.querySelectorAll('.map__filter');
+var mapCheckBox = document.querySelectorAll('.map__checkbox ');
+var notice = document.querySelector('.notice');
+var advertFormElement = notice.querySelectorAll('.ad-form__element');
+var advertFormHeader = notice.querySelector('.ad-form-header');
+var mapPinMain = map.querySelector('.map__pin--main');
+var advertForm = notice.querySelector('.ad-form');
+var MAP_PIN_WIDTH = 65;
+var MAP_PIN_HEIGHT = 65;
+var MAP_PIN_SHARP_HEIGHT = 22;
+var mapPinCoordinateX = parseInt(mapPinMain.style.left, 10) + Math.floor(MAP_PIN_WIDTH / 2);
+var mapPinCoordinateY = parseInt(mapPinMain.style.top, 10) + Math.floor(MAP_PIN_HEIGHT / 2);
+
+var noticeAddress = notice.querySelector('#address');
+noticeAddress.value = mapPinCoordinateX + ', ' + mapPinCoordinateY;
+
+setAttributeDisabled(mapFilter);
+setAttributeDisabled(mapCheckBox);
+setAttributeDisabled(advertFormElement);
+advertFormHeader.setAttribute('disabled', 'disabled');
+
+var roomNumber = notice.querySelector('#room_number');
+var capacityGuest = notice.querySelector('#capacity');
 
 
+var setCapacityGuestOfRoomNumber = function () {
+  if (roomNumber.value === '1') {
+    capacityGuest[2].removeAttribute('disabled');
+    capacityGuest[0].setAttribute('disabled', 'disabled');
+    capacityGuest[1].setAttribute('disabled', 'disabled');
+    capacityGuest[3].setAttribute('disabled', 'disabled');
+
+  } else if (roomNumber.value === '2') {
+    capacityGuest[0].setAttribute('disabled', 'disabled');
+    capacityGuest[3].setAttribute('disabled', 'disabled');
+    capacityGuest[2].removeAttribute('disabled');
+  } else if (roomNumber.value === '3') {
+    capacityGuest[3].setAttribute('disabled', 'disabled');
+    capacityGuest[0].removeAttribute('disabled');
+    capacityGuest[1].removeAttribute('disabled');
+    capacityGuest[2].removeAttribute('disabled');
+  } else if (roomNumber.value === '100') {
+    capacityGuest[0].setAttribute('disabled', 'disabled');
+    capacityGuest[1].setAttribute('disabled', 'disabled');
+    capacityGuest[2].setAttribute('disabled', 'disabled');
+    capacityGuest[3].removeAttribute('disabled');
+  }
+};
+
+var validateCapacityGuest = function () {
+  if (roomNumber.value === '1' && (capacityGuest.value === '0' || capacityGuest.value === '2' || capacityGuest.value === '3')) {
+    capacityGuest.setCustomValidity('В однокомнатную квартиру разместить можно только 1 гостя');
+  } else if (roomNumber.value === '2' && (capacityGuest.value === '0' || capacityGuest.value === '3')) {
+    capacityGuest.setCustomValidity('В 2х комнатную квартиру разместить можно только 1 или 2х гостей');
+  } else if (roomNumber.value === '3' && capacityGuest.value === '0') {
+    capacityGuest.setCustomValidity('В 3х комнатную квартиру разместить можно только 1, 2х или 3х гостей');
+  } else if (roomNumber.value === '100' && !(capacityGuest.value === '0')) {
+    capacityGuest.setCustomValidity('В 100 комнатной квартире резмещать гостей нельзя');
+  } else {
+    capacityGuest.setCustomValidity('');
+  }
+
+};
+
+roomNumber.addEventListener('change', function () {
+  setCapacityGuestOfRoomNumber();
+  validateCapacityGuest();
+});
+
+capacityGuest.addEventListener('change', validateCapacityGuest);
+
+var setActivePage = function () {
+  map.classList.remove('map--faded');
+  advertForm.classList.remove('ad-form--disabled');
+  setAttributeEnabled(mapFilter);
+  setAttributeEnabled(mapCheckBox);
+  setAttributeEnabled(advertFormElement);
+  advertFormHeader.removeAttribute('disabled');
+  mapPinCoordinateY += MAP_PIN_SHARP_HEIGHT + Math.floor(MAP_PIN_WIDTH / 2);
+  noticeAddress.value = mapPinCoordinateX + ', ' + mapPinCoordinateY;
+  mapPinMain.removeEventListener('click', setActivePage);
+  validateCapacityGuest();
+  mapPin.appendChild(fragment);
+  map.insertBefore(fragment, mapFilterContainer);
+};
+
+mapPinMain.addEventListener('click', setActivePage);
