@@ -10,18 +10,19 @@
   var MAP_PIN_HEIGHT = 65;
   var MAP_PIN_SHARP_HEIGHT = 22;
   var mapPinMain = map.querySelector('.map__pin--main');
-  var mapPinCoordinateX = parseInt(mapPinMain.style.left, 10) + Math.floor(MAP_PIN_WIDTH / 2);
-  var mapPinCoordinateY = parseInt(mapPinMain.style.top, 10) + Math.floor(MAP_PIN_HEIGHT / 2);
   var mapPin = document.querySelector('.map__pins');
   var ESC_KEYCODE = 27;
 
 
   // window.noticeAddress.value = mapPinCoordinateX + ', ' + mapPinCoordinateY;
 
+  var getNoticeAddress = function () {
+    window.form.noticeAddress.value = parseInt(mapPinMain.style.left, 10) + Math.floor(MAP_PIN_WIDTH / 2) + ', ' + (parseInt(mapPinMain.style.top, 10) + MAP_PIN_HEIGHT + MAP_PIN_SHARP_HEIGHT);
+  };
+
   for (var i = 0; i < window.data.getAdvert().length; i++) {
     fragment.appendChild(window.renderPin(window.data.getAdvert()[i]));
   }
-
 
 
   window.util.setAttributeDisabled(mapFilter);
@@ -72,8 +73,7 @@
     window.util.setAttributeEnabled(mapCheckBox);
     window.util.setAttributeEnabled(window.form.advertFormElement);
     window.form.advertFormHeader.removeAttribute('disabled');
-    mapPinCoordinateY += MAP_PIN_SHARP_HEIGHT + Math.floor(MAP_PIN_WIDTH / 2);
-    window.form.noticeAddress.value = mapPinCoordinateX + ', ' + mapPinCoordinateY;
+    getNoticeAddress();
     mapPin.appendChild(fragment);
     mapPinMain.removeEventListener('click', setActivePage);
     window.form.validateCapacityGuest();
@@ -130,7 +130,7 @@
           mapPinMain.style.top = mapPinsLimitBottom + 'px';
         }
 
-        window.form.noticeAddress.value = parseInt(mapPinMain.style.left, 10) + Math.floor(MAP_PIN_WIDTH / 2) + ', ' + (parseInt(mapPinMain.style.top, 10) + MAP_PIN_HEIGHT + MAP_PIN_SHARP_HEIGHT);
+        getNoticeAddress();
       };
 
       var upMouseHandler = function (upEvt) {
