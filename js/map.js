@@ -10,16 +10,19 @@
   var MAP_PIN_HEIGHT = 65;
   var MAP_PIN_SHARP_HEIGHT = 22;
   var mapPinMain = map.querySelector('.map__pin--main');
+  var mapPinCoordinateX = parseInt(mapPinMain.style.left, 10) + Math.floor(MAP_PIN_WIDTH / 2);
+  var mapPinCoordinateY = parseInt(mapPinMain.style.top, 10) + Math.floor(MAP_PIN_HEIGHT / 2);
   var mapPin = document.querySelector('.map__pins');
   var ESC_KEYCODE = 27;
 
-  var setNoticeAddress = function () {
-    window.form.noticeAddress.value = parseInt(mapPinMain.style.left, 10) + Math.floor(MAP_PIN_WIDTH / 2) + ', ' + (parseInt(mapPinMain.style.top, 10) + MAP_PIN_HEIGHT + MAP_PIN_SHARP_HEIGHT);
-  };
+
+  // window.noticeAddress.value = mapPinCoordinateX + ', ' + mapPinCoordinateY;
 
   for (var i = 0; i < window.data.getAdvert().length; i++) {
     fragment.appendChild(window.renderPin(window.data.getAdvert()[i]));
   }
+
+
 
   window.util.setAttributeDisabled(mapFilter);
   window.util.setAttributeDisabled(mapCheckBox);
@@ -62,25 +65,25 @@
     }
   };
 
-  var setActivePage = function (movePin) {
+  var setActivePage = function () {
     map.classList.remove('map--faded');
     window.form.advertForm.classList.remove('ad-form--disabled');
     window.util.setAttributeEnabled(mapFilter);
     window.util.setAttributeEnabled(mapCheckBox);
     window.util.setAttributeEnabled(window.form.advertFormElement);
     window.form.advertFormHeader.removeAttribute('disabled');
-    setNoticeAddress();
+    mapPinCoordinateY += MAP_PIN_SHARP_HEIGHT + Math.floor(MAP_PIN_WIDTH / 2);
+    window.form.noticeAddress.value = mapPinCoordinateX + ', ' + mapPinCoordinateY;
     mapPin.appendChild(fragment);
     mapPinMain.removeEventListener('click', setActivePage);
     window.form.validateCapacityGuest();
     getButtonMapPin();
-    movePin();
+
   };
 
   mapPinMain.addEventListener('click', function () {
-    setActivePage(movePin);
+    setActivePage();
   });
-
   var movePin = function () {
     mapPinMain.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
@@ -127,7 +130,7 @@
           mapPinMain.style.top = mapPinsLimitBottom + 'px';
         }
 
-        setNoticeAddress();
+        window.form.noticeAddress.value = parseInt(mapPinMain.style.left, 10) + Math.floor(MAP_PIN_WIDTH / 2) + ', ' + (parseInt(mapPinMain.style.top, 10) + MAP_PIN_HEIGHT + MAP_PIN_SHARP_HEIGHT);
       };
 
       var upMouseHandler = function (upEvt) {
@@ -143,4 +146,5 @@
 
     });
   };
+  movePin();
 })();
