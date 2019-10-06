@@ -12,8 +12,6 @@
   var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
   var mapPin = document.querySelector('.map__pins');
   var widthMap = mapPin.clientWidth;
-  var coordinatePinStart = 130;
-  var coordinatePinEnd = 630;
 
 
   var getRandomElement = function (advertItem) {
@@ -27,13 +25,15 @@
   window.data = {
 
     adverts: [],
+    coordinatePinStart: 130,
+    coordinatePinEnd: 630,
 
     getAdvert: function () {
       var advertAmount = 8;
 
       for (var i = 0; i < advertAmount; i++) {
         var coordinateX = getRandomNumber(0, widthMap);
-        var coordinateY = getRandomNumber(coordinatePinStart, coordinatePinEnd);
+        var coordinateY = getRandomNumber(window.data.coordinatePinStart, window.data.coordinatePinEnd);
         window.data.adverts[i] =
           {
             author: {
