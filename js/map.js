@@ -14,16 +14,32 @@
   var ESC_KEYCODE = 27;
 
 
-  // window.noticeAddress.value = mapPinCoordinateX + ', ' + mapPinCoordinateY;
-
   var getNoticeAddress = function () {
     window.form.noticeAddress.value = parseInt(mapPinMain.style.left, 10) + Math.floor(MAP_PIN_WIDTH / 2) + ', ' + (parseInt(mapPinMain.style.top, 10) + MAP_PIN_HEIGHT + MAP_PIN_SHARP_HEIGHT);
   };
 
-  for (var i = 0; i < window.data.getAdvert().length; i++) {
-    fragment.appendChild(window.renderPin(window.data.getAdvert()[i]));
-  }
+  var successPinHandler = function (adverts) {
+    for (var i = 0; i < adverts.length; i++) {
+      fragment.appendChild(window.renderPin(adverts[i]));
+    }
+  };
 
+
+  var errorHandler = function (errorMessage) {
+    var error = document.querySelector('#error').content;
+    var errorElement = error.cloneNode(true);
+    var main = document.querySelector('main');
+
+    errorElement.querySelector('.error__message').textContent = errorMessage;
+    fragment.appendChild(errorElement);
+    main.appendChild(fragment);
+
+    document.querySelector('.error__button').addEventListener('click', function () {
+      window.load(successPinHandler, errorHandler);
+    });
+  };
+
+  window.load(successPinHandler, errorHandler);
 
   window.util.setAttributeDisabled(mapFilter);
   window.util.setAttributeDisabled(mapCheckBox);
@@ -57,12 +73,12 @@
       closeMapCardHandler();
     });
   };
-  var getButtonMapPin = function () {
+  var getButtonMapPin = function (adverts) {
     var buttonMapPin = mapPin.querySelectorAll('button[type=button]');
 
-    for (i = 0; i < buttonMapPin.length; i++) {
+    for (var i = 0; i < buttonMapPin.length; i++) {
       var button = buttonMapPin[i];
-      addMapPinHandler(button, window.data.adverts[i]);
+      addMapPinHandler(button, adverts[i]);
     }
   };
 
@@ -77,7 +93,7 @@
     mapPin.appendChild(fragment);
     mapPinMain.removeEventListener('click', setActivePage);
     window.form.validateCapacityGuest();
-    getButtonMapPin();
+    window.load(getButtonMapPin, errorHandler);
 
   };
 
