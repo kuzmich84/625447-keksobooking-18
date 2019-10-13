@@ -29,7 +29,9 @@
     coordinatePinEnd: 630,
 
     getAdvert: function () {
+
       var advertAmount = 8;
+
 
       for (var i = 0; i < advertAmount; i++) {
         var coordinateX = getRandomNumber(0, widthMap);
