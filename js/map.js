@@ -84,7 +84,6 @@
     window.util.setAttributeEnabled(window.form.advertFormElement);
     window.form.advertFormHeader.removeAttribute('disabled');
     getNoticeAddress();
-    // window.load(successPinHandler, window.popup.errorHandler);
     window.form.validateCapacityGuest();
     window.load(getButtonMapPin, window.popup.errorHandler);
     mapPinMain.removeEventListener('click', setActivePage);
