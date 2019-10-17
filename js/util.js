@@ -2,6 +2,8 @@
 
 (function () {
 
+  var ESC_KEYCODE = 27;
+
   window.util = {
     getDeclensionWord: function (number, word) {
       var cases = [2, 0, 1, 1, 1, 2];
@@ -19,6 +21,12 @@
         formFields[i].removeAttribute('disabled');
       }
     },
+    isEscEvent: function (evt, action) {
+      if (evt.keyCode === ESC_KEYCODE) {
+        action();
+      }
+    },
+    fragment: document.createDocumentFragment()
   };
 
 })();

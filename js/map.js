@@ -5,41 +5,27 @@
 
   var mapFilter = document.querySelectorAll('.map__filter');
   var mapCheckBox = document.querySelectorAll('.map__checkbox ');
-  var fragment = document.createDocumentFragment();
   var MAP_PIN_WIDTH = 65;
   var MAP_PIN_HEIGHT = 65;
   var MAP_PIN_SHARP_HEIGHT = 22;
   var mapPinMain = map.querySelector('.map__pin--main');
   var mapPin = document.querySelector('.map__pins');
-  var ESC_KEYCODE = 27;
+  window.ESC_KEYCODE = 27;
+  var MAP_PIN_FIRST_LEFT_COORDINATE = mapPinMain.style.left;
+  var MAP_PIN_FIRST_TOP_COORDINATE = mapPinMain.style.top;
 
 
   var getNoticeAddress = function () {
     window.form.noticeAddress.value = parseInt(mapPinMain.style.left, 10) + Math.floor(MAP_PIN_WIDTH / 2) + ', ' + (parseInt(mapPinMain.style.top, 10) + MAP_PIN_HEIGHT + MAP_PIN_SHARP_HEIGHT);
   };
+  getNoticeAddress();
 
   var successPinHandler = function (adverts) {
     for (var i = 0; i < adverts.length; i++) {
-      fragment.appendChild(window.renderPin(adverts[i]));
+      window.util.fragment.appendChild(window.renderPin(adverts[i]));
     }
+    mapPin.appendChild(window.util.fragment);
   };
-
-
-  var errorHandler = function (errorMessage) {
-    var error = document.querySelector('#error').content;
-    var errorElement = error.cloneNode(true);
-    var main = document.querySelector('main');
-
-    errorElement.querySelector('.error__message').textContent = errorMessage;
-    fragment.appendChild(errorElement);
-    main.appendChild(fragment);
-
-    document.querySelector('.error__button').addEventListener('click', function () {
-      window.load(successPinHandler, errorHandler);
-    });
-  };
-
-  window.load(successPinHandler, errorHandler);
 
   window.util.setAttributeDisabled(mapFilter);
   window.util.setAttributeDisabled(mapCheckBox);
@@ -53,7 +39,7 @@
     });
 
     window.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === ESC_KEYCODE) {
+      if (evt.keyCode === window.ESC_KEYCODE) {
         mapCard.remove();
       }
     });
@@ -68,17 +54,25 @@
       if (buttonPopupClose !== null) {
         mapCard.remove();
       }
-      fragment.appendChild(window.renderAdvert(advert));
-      mapPin.appendChild(fragment);
+      window.util.fragment.appendChild(window.renderAdvert(advert));
+      mapPin.appendChild(window.util.fragment);
       closeMapCardHandler();
     });
   };
-  var getButtonMapPin = function (adverts) {
-    var buttonMapPin = mapPin.querySelectorAll('button[type=button]');
 
+  var getButtonMapPin = function (adverts) {
+    successPinHandler(adverts);
+    var buttonMapPin = mapPin.querySelectorAll('button[type=button]');
     for (var i = 0; i < buttonMapPin.length; i++) {
       var button = buttonMapPin[i];
       addMapPinHandler(button, adverts[i]);
+    }
+  };
+
+  var deleteButtonMapPin = function () {
+    var buttonMapPin = mapPin.querySelectorAll('button[type=button]');
+    for (var i = 0; i < buttonMapPin.length; i++) {
+      buttonMapPin[i].remove();
     }
   };
 
@@ -90,16 +84,27 @@
     window.util.setAttributeEnabled(window.form.advertFormElement);
     window.form.advertFormHeader.removeAttribute('disabled');
     getNoticeAddress();
-    mapPin.appendChild(fragment);
-    mapPinMain.removeEventListener('click', setActivePage);
+    // window.load(successPinHandler, window.popup.errorHandler);
     window.form.validateCapacityGuest();
-    window.load(getButtonMapPin, errorHandler);
+    window.load(getButtonMapPin, window.popup.errorHandler);
+    mapPinMain.removeEventListener('click', setActivePage);
+  };
 
+  window.setNotActivePage = function () {
+    map.classList.add('map--faded');
+    window.form.advertForm.classList.add('ad-form--disabled');
+    window.util.setAttributeDisabled(mapFilter);
+    window.util.setAttributeDisabled(mapCheckBox);
+    deleteButtonMapPin();
+    mapPinMain.style.left = MAP_PIN_FIRST_LEFT_COORDINATE;
+    mapPinMain.style.top = MAP_PIN_FIRST_TOP_COORDINATE;
+    getNoticeAddress();
   };
 
   mapPinMain.addEventListener('click', function () {
     setActivePage();
   });
+
   var movePin = function () {
     mapPinMain.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
