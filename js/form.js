@@ -120,4 +120,22 @@
     setTimeOutOfTimeIn();
   });
 
+  var successUploadHandler = function () {
+    window.form.advertForm.reset();
+    window.setNotActivePage();
+    var success = document.querySelector('#success').content;
+    var successElement = success.cloneNode(true);
+    var main = document.querySelector('main');
+    window.util.fragment.appendChild(successElement);
+    main.appendChild(window.util.fragment);
+    document.addEventListener('keydown', window.popup.pressEscPopupSuccessHandler);
+    document.addEventListener('click', window.popup.closeSuccessPopup);
+  };
+
+  window.form.advertForm.addEventListener('submit', function (evt) {
+    window.upload(new FormData(window.form.advertForm), successUploadHandler, window.popup.errorHandler);
+    evt.preventDefault();
+  });
+
+
 })();
