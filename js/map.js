@@ -20,28 +20,26 @@
   };
   getNoticeAddress();
 
-  var updateAdverts = function () {
 
-    // var numberPin = function () {
-    //   var newAdverts = [];
-    //   for (var i = 0; i < 5; i++) {
-    //     newAdverts.push(adverts[i]);
-    //   }
-    //   return newAdverts;
-    // };
+  var housingType = document.querySelector('#housing-type');
 
-    var samePalace = adverts.filter(function (it) {
 
-      return it.offer.type === 'flat';
+  var numberPin = function (x) {
+    var newAdverts = [];
+    var sameOfferType = adverts.filter(function (it) {
+      return it.offer.type === '' + x + '';
 
     });
-
-    console.log(samePalace);
-    renderPin(samePalace);
+    for (var i = 0; i < sameOfferType.length; i++) {
+      newAdverts.push(sameOfferType[i]);
+    }
+    return newAdverts;
   };
 
+
   var renderPin = function (data) {
-    for (var i = 0; i < data.length; i++) {
+    var takeNumber = data.length > 5 ? 5 : data.length;
+    for (var i = 0; i < takeNumber; i++) {
       window.util.fragment.appendChild(window.renderPin(data[i]));
     }
     mapPin.appendChild(window.util.fragment);
@@ -50,6 +48,26 @@
   var successPinHandler = function (data) {
     adverts = data;
     renderPin(adverts);
+    housingType.addEventListener('change', function () {
+      deleteButtonMapPin();
+      if (housingType.value === 'any') {
+        return renderPin(adverts);
+      } else {
+        return renderPin(numberPin(housingType.value));
+      }
+    });
+  };
+
+  var successPinCardHandler = function () {
+    getButtonMapPin(adverts);
+    housingType.addEventListener('change', function () {
+      deleteMapCard();
+      if (housingType.value === 'any') {
+        return getButtonMapPin(adverts);
+      } else {
+        return getButtonMapPin(numberPin(housingType.value));
+      }
+    });
   };
 
 
@@ -123,7 +141,7 @@
       getNoticeAddress();
       window.load(successPinHandler, window.popup.errorHandler);
     }
-    window.load(getButtonMapPin, window.popup.errorHandler);
+    window.load(successPinCardHandler, window.popup.errorHandler);
     mapPinMain.removeEventListener('click', setActivePage);
     active = true;
   };
