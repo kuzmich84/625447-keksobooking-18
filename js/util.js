@@ -26,7 +26,12 @@
         action();
       }
     },
-    fragment: document.createDocumentFragment()
+    fragment: document.createDocumentFragment(),
+
+    getRandomElement: function (advertItem) {
+      var randomIndex = Math.floor((advertItem.length - 1) * Math.random());
+      return advertItem[randomIndex];
+    }
   };
 
 })();
