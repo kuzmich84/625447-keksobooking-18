@@ -20,6 +20,9 @@
   };
   getNoticeAddress();
 
+var updateAdverts = function () {
+
+};
   var successPinHandler = function (adverts) {
     for (var i = 0; i < adverts.length; i++) {
       window.util.fragment.appendChild(window.renderPin(adverts[i]));
@@ -60,8 +63,14 @@
     });
   };
 
+  var deleteMapCard = function () {
+    var mapCard = document.querySelector('.map__card');
+    if (mapCard !== null) {
+      mapCard.remove();
+    }
+  };
+
   var getButtonMapPin = function (adverts) {
-    successPinHandler(adverts);
     var buttonMapPin = mapPin.querySelectorAll('button[type=button]');
     for (var i = 0; i < buttonMapPin.length; i++) {
       var button = buttonMapPin[i];
@@ -76,17 +85,24 @@
     }
   };
 
+
+  var active = false;
+
   var setActivePage = function () {
-    map.classList.remove('map--faded');
-    window.form.advertForm.classList.remove('ad-form--disabled');
-    window.util.setAttributeEnabled(mapFilter);
-    window.util.setAttributeEnabled(mapCheckBox);
-    window.util.setAttributeEnabled(window.form.advertFormElement);
-    window.form.advertFormHeader.removeAttribute('disabled');
-    getNoticeAddress();
     window.form.validateCapacityGuest();
+    if (active === false) {
+      map.classList.remove('map--faded');
+      window.form.advertForm.classList.remove('ad-form--disabled');
+      window.util.setAttributeEnabled(mapFilter);
+      window.util.setAttributeEnabled(mapCheckBox);
+      window.util.setAttributeEnabled(window.form.advertFormElement);
+      window.form.advertFormHeader.removeAttribute('disabled');
+      getNoticeAddress();
+      window.load(successPinHandler, window.popup.errorHandler);
+    }
     window.load(getButtonMapPin, window.popup.errorHandler);
     mapPinMain.removeEventListener('click', setActivePage);
+    active = true;
   };
 
   window.setNotActivePage = function () {
@@ -94,11 +110,15 @@
     window.form.advertForm.classList.add('ad-form--disabled');
     window.util.setAttributeDisabled(mapFilter);
     window.util.setAttributeDisabled(mapCheckBox);
+    window.util.setAttributeDisabled(window.form.advertFormElement);
     deleteButtonMapPin();
     mapPinMain.style.left = MAP_PIN_FIRST_LEFT_COORDINATE;
     mapPinMain.style.top = MAP_PIN_FIRST_TOP_COORDINATE;
     getNoticeAddress();
+    deleteMapCard();
+    active = false;
   };
+
 
   mapPinMain.addEventListener('click', function () {
     setActivePage();
