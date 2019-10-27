@@ -90,6 +90,7 @@
   };
 
 
+
   var addMapPinHandler = function (buttonMapPin, advert) {
     buttonMapPin.addEventListener('click', function () {
       var mapCard = document.querySelector('.map__card');
@@ -98,8 +99,10 @@
       if (buttonPopupClose !== null) {
         mapCard.remove();
       }
+
       window.util.fragment.appendChild(window.renderAdvert(advert));
       mapPin.appendChild(window.util.fragment);
+
       closeMapCardHandler();
     });
   };
@@ -140,8 +143,9 @@
       window.form.advertFormHeader.removeAttribute('disabled');
       getNoticeAddress();
       window.load(successPinHandler, window.popup.errorHandler);
+      window.load(successPinCardHandler, window.popup.errorHandler);
     }
-    window.load(successPinCardHandler, window.popup.errorHandler);
+
     mapPinMain.removeEventListener('click', setActivePage);
     active = true;
   };
