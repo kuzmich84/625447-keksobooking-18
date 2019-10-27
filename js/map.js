@@ -89,8 +89,6 @@
     });
   };
 
-
-
   var addMapPinHandler = function (buttonMapPin, advert) {
     buttonMapPin.addEventListener('click', function () {
       var mapCard = document.querySelector('.map__card');
