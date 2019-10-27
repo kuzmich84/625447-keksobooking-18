@@ -24,10 +24,10 @@
   var housingType = document.querySelector('#housing-type');
 
 
-  var numberPin = function (x) {
+  var numberPin = function (type) {
     var newAdverts = [];
     var sameOfferType = adverts.filter(function (it) {
-      return it.offer.type === '' + x + '';
+      return it.offer.type === '' + type + '';
 
     });
     for (var i = 0; i < sameOfferType.length; i++) {
