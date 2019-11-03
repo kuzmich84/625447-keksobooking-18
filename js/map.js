@@ -12,6 +12,8 @@
   window.ESC_KEYCODE = 27;
   var MAP_PIN_FIRST_LEFT_COORDINATE = mapPinMain.style.left;
   var MAP_PIN_FIRST_TOP_COORDINATE = mapPinMain.style.top;
+  var coordinatePinStart = 130;
+  var coordinatePinEnd = 630;
 
   var getNoticeAddress = function () {
     window.form.noticeAddress.value = parseInt(mapPinMain.style.left, 10) + Math.floor(MAP_PIN_WIDTH / 2) + ', ' + (parseInt(mapPinMain.style.top, 10) + MAP_PIN_HEIGHT + MAP_PIN_SHARP_HEIGHT);
@@ -44,8 +46,8 @@
       window.util.setAttributeEnabled(window.form.advertFormElement);
       window.form.advertFormHeader.removeAttribute('disabled');
       getNoticeAddress();
-      window.load(successPinHandler, window.popup.errorHandler);
-      window.load(successPinCardHandler, window.popup.errorHandler);
+      window.backend.load(successPinHandler, window.popup.errorHandler);
+      window.backend.load(successPinCardHandler, window.popup.errorHandler);
     }
 
     mapPinMain.removeEventListener('click', setActivePage);
@@ -100,9 +102,9 @@
 
         var mapPinCoordinateLeft = parseInt(mapPinMain.style.left, 10) + MAP_PIN_WIDTH;
         var mapPinCoordinateTop = parseInt(mapPinMain.style.top, 10);
-        var mapPinsWidth = window.filter.mapPin.getBoundingClientRect().width;
-        var mapPinsLimitTop = window.data.coordinatePinStart - MAP_PIN_HEIGHT - MAP_PIN_SHARP_HEIGHT;
-        var mapPinsLimitBottom = window.data.coordinatePinEnd - MAP_PIN_HEIGHT - MAP_PIN_SHARP_HEIGHT;
+        var mapPinsWidth = window.pin.mapPin.getBoundingClientRect().width;
+        var mapPinsLimitTop = coordinatePinStart - MAP_PIN_HEIGHT - MAP_PIN_SHARP_HEIGHT;
+        var mapPinsLimitBottom = coordinatePinEnd - MAP_PIN_HEIGHT - MAP_PIN_SHARP_HEIGHT;
 
 
         if (mapPinCoordinateLeft > mapPinsWidth) {

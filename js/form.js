@@ -133,7 +133,7 @@
   };
 
   window.form.advertForm.addEventListener('submit', function (evt) {
-    window.upload(new FormData(window.form.advertForm), successUploadHandler, window.popup.errorHandler);
+    window.backend.upload(new FormData(window.form.advertForm), successUploadHandler, window.popup.errorHandler);
     evt.preventDefault();
   });
 
