@@ -2,7 +2,6 @@
 
 (function () {
   var map = document.querySelector('.map');
-
   var mapFilter = document.querySelectorAll('.map__filter');
   var mapCheckBox = document.querySelectorAll('.map__checkbox ');
   var MAP_PIN_WIDTH = 65;
@@ -64,7 +63,7 @@
     mapPinMain.style.left = MAP_PIN_FIRST_LEFT_COORDINATE;
     mapPinMain.style.top = MAP_PIN_FIRST_TOP_COORDINATE;
     getNoticeAddress();
-    window.deleteMapCard();
+    window.card.deleteMapCard();
     window.filter.mapFilters.reset();
     active = false;
   };

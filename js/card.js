@@ -59,27 +59,26 @@
     return cardElement;
   };
 
-  window.closeMapCardHandler = function () {
-    var mapCard = document.querySelector('.map__card');
-    var buttonPopupClose = document.querySelector('.popup__close');
+  window.card = {
+    closeMapCardHandler: function () {
+      var mapCard = document.querySelector('.map__card');
+      var buttonPopupClose = document.querySelector('.popup__close');
 
-    buttonPopupClose.addEventListener('click', function () {
-      mapCard.remove();
-    });
+      buttonPopupClose.addEventListener('click', function () {
+        mapCard.remove();
+      });
 
-    window.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.ESC_KEYCODE) {
+      window.addEventListener('keydown', function (evt) {
+        if (evt.keyCode === window.ESC_KEYCODE) {
+          mapCard.remove();
+        }
+      });
+    },
+    deleteMapCard: function () {
+      var mapCard = document.querySelector('.map__card');
+      if (mapCard !== null) {
         mapCard.remove();
       }
-    });
-  };
-
-  window.deleteMapCard = function () {
-    var mapCard = document.querySelector('.map__card');
-    if (mapCard !== null) {
-      mapCard.remove();
     }
   };
-
-
 })();

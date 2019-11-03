@@ -21,20 +21,18 @@
     adverts: [],
     changeFilterHandler: function () {
       window.debounce(function () {
-        newAdverts = window.filter.adverts;
-        newAdverts = newAdverts.filter(sameOfferType).filter(sameOfferPrice).filter(sameOfferRooms).filter(sameOfferGuest).filter(sameOfferFeatures);
+        updateAdverts = window.filter.adverts;
+        updateAdverts = updateAdverts.filter(sameOfferType).filter(sameOfferPrice).filter(sameOfferRooms).filter(sameOfferGuest).filter(sameOfferFeatures);
         window.pin.deleteButtonMapPin();
-        renderPins(newAdverts);
-        window.pin.getButtonMapPin(newAdverts);
-        window.deleteMapCard();
+        renderPins(updateAdverts);
+        window.pin.getButtonMapPin(updateAdverts);
+        window.card.deleteMapCard();
       });
     }
   };
 
 
-  var newAdverts = [];
-
-
+  var updateAdverts = [];
   var housingType = window.filter.mapFilters.querySelector('#housing-type');
   var housingRooms = window.filter.mapFilters.querySelector('#housing-rooms');
   var housingPrice = window.filter.mapFilters.querySelector('#housing-price');

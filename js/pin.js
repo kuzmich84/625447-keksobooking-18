@@ -34,7 +34,7 @@
         }
         window.util.fragment.appendChild(window.renderAdvert(advert));
         window.pin.mapPin.appendChild(window.util.fragment);
-        window.closeMapCardHandler();
+        window.card.closeMapCardHandler();
       });
     },
 
