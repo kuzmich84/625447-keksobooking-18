@@ -32,7 +32,7 @@
     cardElement.querySelector('.popup__text--price').textContent = advert.offer.price + '\u20BD/ночь';
     cardElement.querySelector('.popup__type').textContent = getDescriptionOfType(advert.offer.type);
     cardElement.querySelector('.popup__text--capacity').textContent = window.util.getDeclensionWord(advert.offer.rooms, [' комната', ' комнаты', ' комнат']) +
-      ' для ' + window.util.getDeclensionWord(advert.offer.rooms, [' гостя', ' гостей', ' гостей']);
+      ' для ' + window.util.getDeclensionWord(advert.offer.guests, [' гостя', ' гостей', ' гостей']);
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + advert.offer.checkin + ', выезд до ' + advert.offer.checkout;
     cardElement.querySelector('.popup__description').textContent = advert.offer.description;
 
@@ -59,4 +59,26 @@
     return cardElement;
   };
 
+  window.card = {
+    closeMapCardHandler: function () {
+      var mapCard = document.querySelector('.map__card');
+      var buttonPopupClose = document.querySelector('.popup__close');
+
+      buttonPopupClose.addEventListener('click', function () {
+        mapCard.remove();
+      });
+
+      window.addEventListener('keydown', function (evt) {
+        if (evt.keyCode === window.ESC_KEYCODE) {
+          mapCard.remove();
+        }
+      });
+    },
+    deleteMapCard: function () {
+      var mapCard = document.querySelector('.map__card');
+      if (mapCard !== null) {
+        mapCard.remove();
+      }
+    }
+  };
 })();

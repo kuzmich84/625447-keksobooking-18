@@ -1,10 +1,7 @@
 'use strict';
 
 (function () {
-
-
   var notice = document.querySelector('.notice');
-
 
   window.form = {
     advertFormHeader: notice.querySelector('.ad-form-header'),
@@ -133,9 +130,7 @@
   };
 
   window.form.advertForm.addEventListener('submit', function (evt) {
-    window.upload(new FormData(window.form.advertForm), successUploadHandler, window.popup.errorHandler);
+    window.backend.upload(new FormData(window.form.advertForm), successUploadHandler, window.popup.errorHandler);
     evt.preventDefault();
   });
-
-
 })();
