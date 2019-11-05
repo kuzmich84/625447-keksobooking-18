@@ -24,13 +24,14 @@
     }
   };
 
+  var roomNumber = notice.querySelector('#room_number');
+  var capacityGuest = notice.querySelector('#capacity');
+  var noticePriceInput = window.form.advertForm.querySelector('#price');
+  var noticeType = window.form.advertForm.querySelector('#type');
+
 
   window.util.setAttributeDisabled(window.form.advertFormElement);
   window.form.advertFormHeader.setAttribute('disabled', 'disabled');
-
-
-  var roomNumber = notice.querySelector('#room_number');
-  var capacityGuest = notice.querySelector('#capacity');
 
   var setCapacityGuestOfRoomNumber = function () {
     if (roomNumber.value === '1') {
@@ -63,6 +64,10 @@
     window.form.validateCapacityGuest();
   });
 
+  capacityGuest.addEventListener('click', function () {
+    setCapacityGuestOfRoomNumber();
+  });
+
   capacityGuest.addEventListener('change', window.form.validateCapacityGuest);
 
   var noticeTitleInput = window.form.advertForm.querySelector('#title');
@@ -78,9 +83,6 @@
       noticeTitleInput.setCustomValidity('');
     }
   });
-
-  var noticePriceInput = window.form.advertForm.querySelector('#price');
-  var noticeType = window.form.advertForm.querySelector('#type');
 
   var setMinPriceOfType = function () {
     if (noticeType.value === 'bungalo') {
@@ -124,6 +126,7 @@
 
   var successUploadHandler = function () {
     window.form.advertForm.reset();
+    noticePriceInput.placeholder = 5000;
     window.setNotActivePage();
     var success = document.querySelector('#success').content;
     var successElement = success.cloneNode(true);
@@ -144,6 +147,7 @@
 
   var inputsOfAdvertForm = window.form.advertForm.querySelectorAll('input');
   var selectsOfAdvertForm = window.form.advertForm.querySelectorAll('select');
+  var advertFormSubmit = document.querySelector('.ad-form__submit');
 
   var checkElementForm = function (elements) {
     elements.forEach(function (item) {
@@ -151,15 +155,20 @@
     });
   };
 
-  var advertFormSubmit = document.querySelector('.ad-form__submit');
-
   advertFormSubmit.addEventListener('click', function () {
     checkElementForm(inputsOfAdvertForm);
     checkElementForm(selectsOfAdvertForm);
   });
 
-  window.form.advertForm.addEventListener('input', function () {
+  noticeTitleInput.addEventListener('input', function () {
     checkElementForm(inputsOfAdvertForm);
+  });
+
+  noticePriceInput.addEventListener('input', function () {
+    checkElementForm(inputsOfAdvertForm);
+  });
+
+  capacityGuest.addEventListener('input', function () {
     checkElementForm(selectsOfAdvertForm);
   });
 
