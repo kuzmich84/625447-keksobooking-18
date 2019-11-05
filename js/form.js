@@ -24,6 +24,7 @@
     }
   };
 
+
   window.util.setAttributeDisabled(window.form.advertFormElement);
   window.form.advertFormHeader.setAttribute('disabled', 'disabled');
 
@@ -43,6 +44,7 @@
       capacityGuest[3].setAttribute('disabled', 'disabled');
       capacityGuest[2].removeAttribute('disabled');
     } else if (roomNumber.value === '3') {
+
       capacityGuest[3].setAttribute('disabled', 'disabled');
       capacityGuest[0].removeAttribute('disabled');
       capacityGuest[1].removeAttribute('disabled');
@@ -100,6 +102,9 @@
     setMinPriceOfType();
   });
 
+  noticePriceInput.addEventListener('click', function () {
+    setMinPriceOfType();
+  });
   var noticeTimeIn = window.form.advertForm.querySelector('#timein');
   var noticeTimeOut = window.form.advertForm.querySelector('#timeout');
 
@@ -128,6 +133,35 @@
     document.addEventListener('keydown', window.popup.pressEscPopupSuccessHandler);
     document.addEventListener('click', window.popup.closeSuccessPopup);
   };
+
+  var setErrorBorderOfValidity = function (element) {
+    if (element.checkValidity() === false) {
+      element.style.borderColor = 'red';
+    } else {
+      element.removeAttribute('style');
+    }
+  };
+
+  var inputsOfAdvertForm = window.form.advertForm.querySelectorAll('input');
+  var selectsOfAdvertForm = window.form.advertForm.querySelectorAll('select');
+
+  var checkElementForm = function (elements) {
+    elements.forEach(function (item) {
+      setErrorBorderOfValidity(item);
+    });
+  };
+
+  var advertFormSubmit = document.querySelector('.ad-form__submit');
+
+  advertFormSubmit.addEventListener('click', function () {
+    checkElementForm(inputsOfAdvertForm);
+    checkElementForm(selectsOfAdvertForm);
+  });
+
+  window.form.advertForm.addEventListener('input', function () {
+    checkElementForm(inputsOfAdvertForm);
+    checkElementForm(selectsOfAdvertForm);
+  });
 
   window.form.advertForm.addEventListener('submit', function (evt) {
     window.backend.upload(new FormData(window.form.advertForm), successUploadHandler, window.popup.errorHandler);
