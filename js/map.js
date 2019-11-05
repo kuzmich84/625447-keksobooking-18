@@ -65,6 +65,7 @@
     getNoticeAddress();
     window.card.deleteMapCard();
     window.filter.mapFilters.reset();
+    window.resetPhotoForm();
     active = false;
   };
 
