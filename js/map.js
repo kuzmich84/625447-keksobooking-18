@@ -98,17 +98,18 @@
         mapPinMain.style.left = (mapPinMain.offsetLeft - shift.x) + 'px';
         mapPinMain.style.top = (mapPinMain.offsetTop - shift.y) + 'px';
 
-        var mapPinCoordinateLeft = parseInt(mapPinMain.style.left, 10) + MAP_PIN_WIDTH;
+        var mapPinCoordinateLeft = parseInt(mapPinMain.style.left, 10) + MAP_PIN_WIDTH / 2;
         var mapPinCoordinateTop = parseInt(mapPinMain.style.top, 10);
-        var mapPinsWidth = window.pin.mapPin.getBoundingClientRect().width;
         var mapPinsLimitTop = coordinatePinStart - MAP_PIN_HEIGHT - MAP_PIN_SHARP_HEIGHT;
         var mapPinsLimitBottom = coordinatePinEnd - MAP_PIN_HEIGHT - MAP_PIN_SHARP_HEIGHT;
+        var LIMIT_LEFT = 0;
+        var LIMIT_RIGHT = window.pin.mapPin.getBoundingClientRect().width;
 
 
-        if (mapPinCoordinateLeft > mapPinsWidth) {
-          mapPinMain.style.left = (mapPinsWidth - MAP_PIN_WIDTH) + 'px';
-        } else if (mapPinCoordinateLeft < MAP_PIN_WIDTH) {
-          mapPinMain.style.left = 0 + 'px';
+        if (mapPinCoordinateLeft > LIMIT_RIGHT) {
+          mapPinMain.style.left = (LIMIT_RIGHT - MAP_PIN_WIDTH / 2) + 'px';
+        } else if (mapPinCoordinateLeft < LIMIT_LEFT) {
+          mapPinMain.style.left = -MAP_PIN_WIDTH / 2 + 'px';
         }
 
 
