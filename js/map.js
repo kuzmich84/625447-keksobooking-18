@@ -13,7 +13,7 @@
   var MAP_PIN_FIRST_TOP_COORDINATE = mapPinMain.style.top;
   var coordinatePinStart = 130;
   var coordinatePinEnd = 630;
-
+  var active = false;
   var getNoticeAddress = function () {
     window.form.noticeAddress.value = parseInt(mapPinMain.style.left, 10) + Math.floor(MAP_PIN_WIDTH / 2) + ', ' + (parseInt(mapPinMain.style.top, 10) + MAP_PIN_HEIGHT + MAP_PIN_SHARP_HEIGHT);
   };
@@ -32,8 +32,6 @@
 
   window.util.setAttributeDisabled(mapFilter);
   window.util.setAttributeDisabled(mapCheckBox);
-
-  var active = false;
 
   var setActivePage = function () {
     window.form.validateCapacityGuest();

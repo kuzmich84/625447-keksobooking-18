@@ -1,7 +1,6 @@
 'use strict';
 (function () {
 
-
   window.popup = {
 
     pressEscPopupErrorHandler: function (evt) {

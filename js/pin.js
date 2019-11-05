@@ -32,7 +32,7 @@
         if (buttonPopupClose !== null) {
           mapCard.remove();
         }
-        window.util.fragment.appendChild(window.renderAdvert(advert));
+        window.util.fragment.appendChild(window.card.renderAdvert(advert));
         window.pin.mapPin.appendChild(window.util.fragment);
         window.card.closeMapCardHandler();
       });

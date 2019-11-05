@@ -28,6 +28,13 @@
   var capacityGuest = notice.querySelector('#capacity');
   var noticePriceInput = window.form.advertForm.querySelector('#price');
   var noticeType = window.form.advertForm.querySelector('#type');
+  var inputsOfAdvertForm = window.form.advertForm.querySelectorAll('input');
+  var selectsOfAdvertForm = window.form.advertForm.querySelectorAll('select');
+  var advertFormSubmit = document.querySelector('.ad-form__submit');
+  var noticeTimeIn = window.form.advertForm.querySelector('#timein');
+  var noticeTimeOut = window.form.advertForm.querySelector('#timeout');
+  var formReset = document.querySelector('.ad-form__reset');
+  var noticeTitleInput = window.form.advertForm.querySelector('#title');
 
 
   window.util.setAttributeDisabled(window.form.advertFormElement);
@@ -70,8 +77,6 @@
 
   capacityGuest.addEventListener('change', window.form.validateCapacityGuest);
 
-  var noticeTitleInput = window.form.advertForm.querySelector('#title');
-
   noticeTitleInput.addEventListener('invalid', function () {
     if (noticeTitleInput.validity.tooShort) {
       noticeTitleInput.setCustomValidity('Заголовок должен состоять минимум из 30 символов');
@@ -107,8 +112,7 @@
   noticePriceInput.addEventListener('click', function () {
     setMinPriceOfType();
   });
-  var noticeTimeIn = window.form.advertForm.querySelector('#timein');
-  var noticeTimeOut = window.form.advertForm.querySelector('#timeout');
+
 
   var setTimeOutOfTimeIn = function () {
     if (noticeTimeIn.value === '12:00') {
@@ -145,10 +149,6 @@
     }
   };
 
-  var inputsOfAdvertForm = window.form.advertForm.querySelectorAll('input');
-  var selectsOfAdvertForm = window.form.advertForm.querySelectorAll('select');
-  var advertFormSubmit = document.querySelector('.ad-form__submit');
-
   var checkElementForm = function (elements) {
     elements.forEach(function (item) {
       setErrorBorderOfValidity(item);
@@ -175,5 +175,9 @@
   window.form.advertForm.addEventListener('submit', function (evt) {
     window.backend.upload(new FormData(window.form.advertForm), successUploadHandler, window.popup.errorHandler);
     evt.preventDefault();
+  });
+
+  formReset.addEventListener('click', function () {
+    window.setNotActivePage();
   });
 })();

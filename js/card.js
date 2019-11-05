@@ -24,7 +24,7 @@
   };
 
 
-  window.renderAdvert = function (advert) {
+  var renderCard = function (advert) {
     var cardElement = card.cloneNode(true);
 
     cardElement.querySelector('.popup__title').textContent = advert.offer.title;
@@ -79,6 +79,7 @@
       if (mapCard !== null) {
         mapCard.remove();
       }
-    }
+    },
+    renderAdvert: renderCard
   };
 })();
