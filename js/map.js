@@ -35,6 +35,7 @@
 
   var setActivePage = function () {
     window.form.validateCapacityGuest();
+    window.form.setMinPriceOfType();
     if (active === false) {
       map.classList.remove('map--faded');
       window.form.advertForm.classList.remove('ad-form--disabled');
