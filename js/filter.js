@@ -41,13 +41,8 @@
 
 
   var filtrationItem = function (it, data, key) {
-    if (it.value === 'any') {
-      return true;
-    } else {
-      return it.value === data[key].toString();
-    }
+    return it.value === 'any' ? true : it.value === data[key].toString();
   };
-
 
   var sameOfferType = function (data) {
     return filtrationItem(housingType, data.offer, 'type');
@@ -58,9 +53,8 @@
     var selectedPrice = RangePrice[housingPrice.value.toUpperCase()];
     if (selectedPrice) {
       return data.offer.price >= selectedPrice.MIN && data.offer.price <= selectedPrice.MAX;
-    } else {
-      return true;
     }
+    return true;
   };
 
   var sameOfferRooms = function (data) {
