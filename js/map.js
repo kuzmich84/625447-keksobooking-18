@@ -47,7 +47,6 @@
       window.backend.load(successPinHandler, window.popup.errorHandler);
       window.backend.load(successPinCardHandler, window.popup.errorHandler);
     }
-
     mapPinMain.removeEventListener('click', setActivePage);
     active = true;
   };
