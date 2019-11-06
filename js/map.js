@@ -38,11 +38,11 @@
     window.form.setMinPriceOfType();
     if (active === false) {
       map.classList.remove('map--faded');
-      window.form.advertForm.classList.remove('ad-form--disabled');
+      window.form.advert.classList.remove('ad-form--disabled');
       window.util.setAttributeEnabled(mapFilter);
       window.util.setAttributeEnabled(mapCheckBox);
-      window.util.setAttributeEnabled(window.form.advertFormElement);
-      window.form.advertFormHeader.removeAttribute('disabled');
+      window.util.setAttributeEnabled(window.form.advertElement);
+      window.form.advertHeader.removeAttribute('disabled');
       getNoticeAddress();
       window.backend.load(successPinHandler, window.popup.errorHandler);
       window.backend.load(successPinCardHandler, window.popup.errorHandler);
@@ -54,10 +54,10 @@
 
   window.setNotActivePage = function () {
     map.classList.add('map--faded');
-    window.form.advertForm.classList.add('ad-form--disabled');
+    window.form.advert.classList.add('ad-form--disabled');
     window.util.setAttributeDisabled(mapFilter);
     window.util.setAttributeDisabled(mapCheckBox);
-    window.util.setAttributeDisabled(window.form.advertFormElement);
+    window.util.setAttributeDisabled(window.form.advertElement);
     window.pin.deleteButton();
     mapPinMain.style.left = MAP_PIN_FIRST_LEFT_COORDINATE;
     mapPinMain.style.top = MAP_PIN_FIRST_TOP_COORDINATE;
