@@ -58,7 +58,7 @@
     window.util.setAttributeDisabled(mapFilter);
     window.util.setAttributeDisabled(mapCheckBox);
     window.util.setAttributeDisabled(window.form.advertFormElement);
-    window.pin.deleteButtonMapPin();
+    window.pin.deleteButton();
     mapPinMain.style.left = MAP_PIN_FIRST_LEFT_COORDINATE;
     mapPinMain.style.top = MAP_PIN_FIRST_TOP_COORDINATE;
     getNoticeAddress();
@@ -104,7 +104,7 @@
         var mapPinsLimitTop = coordinatePinStart - MAP_PIN_HEIGHT - MAP_PIN_SHARP_HEIGHT;
         var mapPinsLimitBottom = coordinatePinEnd - MAP_PIN_HEIGHT - MAP_PIN_SHARP_HEIGHT;
         var LIMIT_LEFT = 0;
-        var LIMIT_RIGHT = window.pin.mapPin.getBoundingClientRect().width;
+        var LIMIT_RIGHT = window.pin.map.getBoundingClientRect().width;
 
 
         if (mapPinCoordinateLeft > LIMIT_RIGHT) {

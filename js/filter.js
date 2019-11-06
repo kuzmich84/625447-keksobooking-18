@@ -23,9 +23,9 @@
       window.debounce(function () {
         updateAdverts = window.filter.adverts;
         updateAdverts = updateAdverts.filter(sameOfferType).filter(sameOfferPrice).filter(sameOfferRooms).filter(sameOfferGuest).filter(sameOfferFeatures);
-        window.pin.deleteButtonMapPin();
+        window.pin.deleteButton();
         renderPins(updateAdverts);
-        window.pin.getButtonMapPin(updateAdverts);
+        window.pin.getButton(updateAdverts);
         window.card.deleteMapCard();
       });
     }
@@ -81,9 +81,9 @@
   var renderPins = function (data) {
     var takeNumber = data.length > PINS_LIMIT ? PINS_LIMIT : data.length;
     for (var i = 0; i < takeNumber; i++) {
-      window.util.fragment.appendChild(window.pin.renderPin(data[i]));
+      window.util.fragment.appendChild(window.pin.render(data[i]));
     }
-    window.pin.mapPin.appendChild(window.util.fragment);
+    window.pin.map.appendChild(window.util.fragment);
   };
 
 })();

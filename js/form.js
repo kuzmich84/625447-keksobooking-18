@@ -137,8 +137,8 @@
     var main = document.querySelector('main');
     window.util.fragment.appendChild(successElement);
     main.appendChild(window.util.fragment);
-    document.addEventListener('keydown', window.popup.pressEscPopupSuccessHandler);
-    document.addEventListener('click', window.popup.closeSuccessPopup);
+    document.addEventListener('keydown', window.popup.pressEscSuccessHandler);
+    document.addEventListener('click', window.popup.  closeSuccess);
   };
 
   var setErrorBorderOfValidity = function (element) {
