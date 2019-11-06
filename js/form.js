@@ -160,18 +160,6 @@
     checkElementForm(selectsOfAdvertForm);
   });
 
-  noticeTitleInput.addEventListener('input', function () {
-    checkElementForm(inputsOfAdvertForm);
-  });
-
-  noticePriceInput.addEventListener('input', function () {
-    checkElementForm(inputsOfAdvertForm);
-  });
-
-  capacityGuest.addEventListener('input', function () {
-    checkElementForm(selectsOfAdvertForm);
-  });
-
   window.form.advertForm.addEventListener('submit', function (evt) {
     window.backend.upload(new FormData(window.form.advertForm), successUploadHandler, window.popup.errorHandler);
     evt.preventDefault();
