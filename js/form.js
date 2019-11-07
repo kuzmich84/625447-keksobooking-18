@@ -129,6 +129,7 @@
     document.addEventListener('click', window.popup.closeSuccessPopup);
   };
 
+
   window.form.advertForm.addEventListener('submit', function (evt) {
     window.backend.upload(new FormData(window.form.advertForm), successUploadHandler, window.popup.errorHandler);
     evt.preventDefault();
