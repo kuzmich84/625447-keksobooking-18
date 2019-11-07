@@ -23,9 +23,9 @@
       window.debounce(function () {
         updateAdverts = window.filter.adverts;
         updateAdverts = updateAdverts.filter(sameOfferType).filter(sameOfferPrice).filter(sameOfferRooms).filter(sameOfferGuest).filter(sameOfferFeatures);
-        window.pin.deleteButtonMapPin();
+        window.pin.deleteButton();
         renderPins(updateAdverts);
-        window.pin.getButtonMapPin(updateAdverts);
+        window.pin.getButton(updateAdverts);
         window.card.deleteMapCard();
       });
     }
@@ -41,13 +41,8 @@
 
 
   var filtrationItem = function (it, data, key) {
-    if (it.value === 'any') {
-      return true;
-    } else {
-      return it.value === data[key].toString();
-    }
+    return it.value === 'any' ? true : it.value === data[key].toString();
   };
-
 
   var sameOfferType = function (data) {
     return filtrationItem(housingType, data.offer, 'type');
@@ -58,9 +53,8 @@
     var selectedPrice = RangePrice[housingPrice.value.toUpperCase()];
     if (selectedPrice) {
       return data.offer.price >= selectedPrice.MIN && data.offer.price <= selectedPrice.MAX;
-    } else {
-      return true;
     }
+    return true;
   };
 
   var sameOfferRooms = function (data) {
@@ -81,9 +75,9 @@
   var renderPins = function (data) {
     var takeNumber = data.length > PINS_LIMIT ? PINS_LIMIT : data.length;
     for (var i = 0; i < takeNumber; i++) {
-      window.util.fragment.appendChild(window.pin.renderPin(data[i]));
+      window.util.fragment.appendChild(window.pin.render(data[i]));
     }
-    window.pin.mapPin.appendChild(window.util.fragment);
+    window.pin.map.appendChild(window.util.fragment);
   };
 
 })();
