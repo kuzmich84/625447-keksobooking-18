@@ -61,9 +61,20 @@
     return filtrationItem(housingRooms, data.offer, 'rooms');
   };
 
-  var sameOfferGuest = function (data) {
-    return filtrationItem(housingGuestNumber, data.offer, 'guests');
+  var filtrationGuest = function (it, data) {
+    if (it.value === 'any') {
+      return true;
+    } else if (it.value === '1' || it.value === '2') {
+      return it.value <= data['guests'].toString();
+    } else {
+      return it.value === data['guests'].toString();
+    }
   };
+
+  var sameOfferGuest = function (data) {
+    return filtrationGuest(housingGuestNumber, data.offer);
+  };
+
 
   var sameOfferFeatures = function (data) {
     var checkedFeaturesItems = document.querySelectorAll('input:checked');
