@@ -36,24 +36,25 @@
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + advert.offer.checkin + ', выезд до ' + advert.offer.checkout;
     cardElement.querySelector('.popup__description').textContent = advert.offer.description;
 
-    var popupFeatures = cardElement.querySelector('.popup__features').children;
-    for (var i = 0; i < popupFeatures.length; i++) {
-      popupFeatures[i].style.display = 'none';
-    }
-    for (i = 0; i < advert.offer.features.length; i++) {
-      for (var j = 0; j < popupFeatures.length; j++) {
-        if (popupFeatures[j].classList.contains('popup__feature--' + advert.offer.features[i])) {
-          popupFeatures[j].style.display = 'inline-block';
+    var popupFeatures = Array.from(cardElement.querySelector('.popup__features').children);
+
+    popupFeatures.forEach(function (element) {
+      element.style.display = 'none';
+    });
+
+    advert.offer.features.forEach(function (featuresItem) {
+      popupFeatures.forEach(function (element) {
+        if (element.classList.contains('popup__feature--' + featuresItem)) {
+          element.style.display = 'inline-block';
         }
-      }
-    }
+      });
+    });
 
-    for (i = 0; i < advert.offer.photos.length; i++) {
-      cardElement.querySelector('.popup__photo').src = advert.offer.photos[i];
+    advert.offer.photos.forEach(function (photosItem) {
+      cardElement.querySelector('.popup__photo').src = photosItem;
       cardElement.querySelector('.popup__photos').appendChild(cardElement.querySelector('.popup__photo').cloneNode(true));
-    }
+    });
     cardElement.querySelectorAll('.popup__photo')[0].remove();
-
     cardElement.querySelector('.popup__avatar').src = advert.author.avatar;
 
     return cardElement;
