@@ -18,10 +18,10 @@
       return pinElement;
     },
     deleteButton: function () {
-      var buttonMapPin = window.pin.map.querySelectorAll('button[type=button]');
-      for (var i = 0; i < buttonMapPin.length; i++) {
-        buttonMapPin[i].remove();
-      }
+      var buttonMapPins = Array.from(window.pin.map.querySelectorAll('button[type=button]'));
+      buttonMapPins.forEach(function (buttonItem) {
+        buttonItem.remove();
+      });
     },
 
     getButton: function (advert) {
@@ -31,7 +31,6 @@
         addMapPinHandler(button, advert[i]);
       }
     }
-
   };
 
   var addMapPinHandler = function (buttonMapPin, advert) {

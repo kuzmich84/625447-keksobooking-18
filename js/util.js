@@ -11,15 +11,15 @@
     },
 
     setAttributeDisabled: function (formFields) {
-      for (var i = 0; i < formFields.length; i++) {
-        formFields[i].setAttribute('disabled', 'disabled');
-      }
+      Array.from(formFields).forEach(function (fromFieldsItem) {
+        fromFieldsItem.setAttribute('disabled', 'disabled');
+      });
     },
 
     setAttributeEnabled: function (formFields) {
-      for (var i = 0; i < formFields.length; i++) {
-        formFields[i].removeAttribute('disabled');
-      }
+      Array.from(formFields).forEach(function (fromFieldsItem) {
+        fromFieldsItem.removeAttribute('disabled');
+      });
     },
     isEscEvent: function (evt, action) {
       if (evt.keyCode === ESC_KEYCODE) {
