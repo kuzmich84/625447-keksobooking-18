@@ -25,11 +25,10 @@
     },
 
     getButton: function (advert) {
-      var buttonMapPin = window.pin.map.querySelectorAll('button[type=button]');
-      for (var i = 0; i < buttonMapPin.length; i++) {
-        var button = buttonMapPin[i];
-        addMapPinHandler(button, advert[i]);
-      }
+      var buttonMapPins = Array.from(window.pin.map.querySelectorAll('button[type=button]'));
+      buttonMapPins.forEach(function (buttonItem, index) {
+        addMapPinHandler(buttonItem, advert[index]);
+      });
     }
   };
 

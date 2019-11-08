@@ -166,6 +166,7 @@
   });
 
   formReset.addEventListener('click', function () {
+    noticePriceInput.placeholder = 5000;
     window.setNotActivePage();
   });
 })();
